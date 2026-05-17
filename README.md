@@ -1,191 +1,112 @@
-# 🎭 Mood Tracker
+# Mood Tracker
 
-A beautiful, single-screen Flutter web app that helps you track your daily moods with custom-drawn expressive faces.
+A single-screen Flutter web app for tracking daily moods with custom-drawn expressive faces.
 
-## ✨ Features
+## Features
 
-- **5 Unique Mood Types**: Happy, Excited, Neutral, Tired, and Sad
-- **Custom-Painted Faces**: All mood expressions are drawn using Flutter's CustomPainter with basic drawing primitives (drawCircle, drawArc, drawPath)
-- **Interactive Timeline**: View your last 7 mood entries in a horizontal scrollable timeline
-- **Smooth Animations**: Tap any past entry to see it animate with a bounce effect
-- **Color-Coded**: Each mood has a distinct color accent for easy visual recognition
-- **Responsive Design**: Works beautifully on desktop and mobile browsers
+- 5 distinct mood types (Happy, Excited, Neutral, Tired, Sad)
+- Custom-painted faces using Flutter's CustomPainter
+- Interactive timeline showing last 7 entries
+- Smooth animations on tap
+- Clean, responsive design
 
-## 🎨 Technical Highlights
+## Technical Implementation
 
-### CustomPainter Implementation
-Each mood face is drawn from scratch using Canvas primitives:
-- **Face base**: `drawCircle` for the round face with shadow effects
-- **Eyes**: Different styles per mood (circles, arcs, half-circles)
-- **Mouth**: `drawArc` and `drawLine` for various expressions
-- **Special features**: Cheeks (happy/excited), tears (sad), eyebrows (sad/tired)
-- **Animation**: Scale transform with elastic curve for tap feedback
+### CustomPainter
+Each mood face is drawn from scratch using Canvas drawing primitives:
+- `drawCircle` - Face base, eyes, and cheeks
+- `drawArc` - Smiles, frowns, and eye variations
+- `drawPath` - Tear drops and special effects
+
+All mood expressions are rendered with basic shapes, no images or icon fonts.
 
 ### State Management
-Using **Provider** pattern for clean, reactive state management:
-- `MoodProvider`: Manages mood entries and animation states
-- `ChangeNotifier`: Triggers UI updates when data changes
-- `Consumer`/`context.watch`: Rebuilds only necessary widgets
+Uses Provider pattern with ChangeNotifier for reactive state updates. The MoodProvider manages mood entries and animation states.
 
-### Architecture
+### Project Structure
 ```
 lib/
-├── main.dart                 # App entry point with Provider setup
+├── main.dart                 # App entry point
 ├── models/
-│   └── mood_entry.dart       # MoodType enum, MoodEntry model, color extensions
+│   └── mood_entry.dart       # Data models
 ├── painters/
-│   └── mood_face_painter.dart # CustomPainter with all 5 mood expressions
+│   └── mood_face_painter.dart # CustomPainter implementation
 ├── providers/
-│   └── mood_provider.dart    # State management for mood entries
+│   └── mood_provider.dart    # State management
 ├── screens/
-│   └── home_screen.dart      # Main UI with mood buttons and timeline
+│   └── home_screen.dart      # Main UI
 └── widgets/
-    ├── mood_face.dart        # Stateful widget wrapping CustomPainter with animation
-    └── timeline_card.dart    # Timeline entry card with date and mood info
+    ├── mood_face.dart        # Animated face widget
+    └── timeline_card.dart    # Timeline cards
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Flutter SDK (3.x or higher)
+- Flutter SDK 3.x or higher
 - Web browser (Chrome recommended)
 
 ### Installation
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/mood_tracker.git
 cd mood_tracker
-```
-
-2. Install dependencies:
-```bash
 flutter pub get
 ```
 
-3. Run the app:
+### Run Locally
+
 ```bash
 flutter run -d chrome
 ```
 
-## 📦 Building for Production
+### Build for Production
 
-Build the web app:
 ```bash
 flutter build web --release
 ```
 
-The output will be in `build/web/` directory.
+Output will be in `build/web/` directory.
 
-## 🌐 Deployment
+## Deployment
 
 ### Firebase Hosting
 
-1. Install Firebase CLI:
 ```bash
 npm install -g firebase-tools
-```
-
-2. Login to Firebase:
-```bash
 firebase login
-```
-
-3. Initialize Firebase (if not already done):
-```bash
 firebase init hosting
-```
-
-4. Build and deploy:
-```bash
 flutter build web --release
 firebase deploy --only hosting
 ```
 
 ### Vercel
 
-1. Install Vercel CLI:
 ```bash
 npm install -g vercel
-```
-
-2. Build the app:
-```bash
 flutter build web --release
-```
-
-3. Deploy:
-```bash
 vercel --prod
 ```
 
-Or simply connect your GitHub repository to Vercel dashboard for automatic deployments.
+Or connect your GitHub repository to Vercel for automatic deployments.
 
-## 🎯 Key Features Explained
+## Usage
 
-### Mood Logging
-Tap any of the 5 mood faces to log your current mood. A snackbar confirmation appears with the mood's color.
+1. Tap any mood face to log your current mood
+2. View your last 7 entries in the horizontal timeline
+3. Tap any timeline entry to trigger an animation
+4. Each entry shows the date, time, and mood face
 
-### Timeline View
-- Shows your last 7 mood entries
-- Each card displays:
-  - Custom-painted mood face
-  - Date and time
-  - Color-coded background matching the mood
-  - Mood label badge
+## Technologies
 
-### Animation
-Tap any timeline entry to trigger a smooth bounce animation using Flutter's AnimationController with elastic curves.
+- Flutter & Dart
+- Provider for state management
+- CustomPainter for graphics
+- Material Design 3
 
-### Responsive Design
-The app adapts to different screen sizes with:
-- Constrained max width (700px) for desktop
-- Appropriate padding based on screen width
-- Horizontal scrollable timeline
-
-## 🛠️ Technologies Used
-
-- **Flutter**: Cross-platform UI framework
-- **Dart**: Programming language
-- **Provider**: State management
-- **CustomPainter**: Custom graphics rendering
-- **Material Design 3**: Modern UI components
-
-## 📱 How It Works
-
-1. **Tap a mood face** → Logs entry with current timestamp
-2. **View timeline** → See your last 7 entries scrolling horizontally
-3. **Tap entry** → Triggers animated scale effect with elastic bounce
-4. **Visual feedback** → Color-coded cards and snackbar confirmations
-
-## 🎨 Mood Types & Colors
-
-| Mood     | Color      | Hex       | Features                              |
-|----------|------------|-----------|---------------------------------------|
-| Happy    | Yellow     | `#FFC93C` | Big smile, round eyes, rosy cheeks    |
-| Excited  | Hot Pink   | `#FF6B9D` | Wide eyes, open mouth, sparkles       |
-| Neutral  | Mint       | `#95E1D3` | Straight line mouth, simple eyes      |
-| Tired    | Purple     | `#9B9ECE` | Half-closed eyes, slight frown        |
-| Sad      | Sky Blue   | `#5DADE2` | Down-turned mouth, angled brows, tear |
-
-## 🔧 Future Improvements
-
-With more time, I would add:
-- Persistent storage (SharedPreferences or Firebase)
-- Data export/analytics
-- Custom mood notes
-- Weekly/monthly mood trends graphs
-- Dark mode support
-- PWA capabilities for offline use
-- Mood streak tracking
-
-## 📄 License
+## License
 
 This project is open source and available under the MIT License.
-
-## 👤 Author
-
-Created as part of a Flutter developer technical assessment.
 
 ---
 

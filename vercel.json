@@ -1,0 +1,13 @@
+{
+  "buildCommand": "flutter build web",
+  "outputDirectory": "build/web",
+  "devCommand": "flutter run -d web-server --web-port=$PORT",
+  "framework": null,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
+
