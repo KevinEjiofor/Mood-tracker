@@ -57,7 +57,6 @@ void main() {
         ),
       );
 
-      // Let animation complete
       await tester.pumpAndSettle();
       expect(find.byType(MoodFace), findsOneWidget);
     });

@@ -32,15 +32,12 @@ void main() {
         ),
       );
 
-      // Check that the card is rendered
       expect(find.byType(TimelineCard), findsOneWidget);
       expect(find.byType(MoodFace), findsOneWidget);
 
-      // Check date and time display
       expect(find.text('May 17'), findsOneWidget);
       expect(find.text('10:30 AM'), findsOneWidget);
 
-      // Check mood label
       expect(find.text('Happy'), findsOneWidget);
     });
 
@@ -59,14 +56,11 @@ void main() {
       final gesture = find.byType(GestureDetector);
       expect(gesture, findsOneWidget);
 
-      // Tap the card
       await tester.tap(gesture);
       await tester.pump();
 
-      // Animation should be triggered
       expect(provider.animatingId, testEntry.id);
 
-      // Wait for animation to complete
       await tester.pumpAndSettle(const Duration(seconds: 1));
     });
 
@@ -82,22 +76,17 @@ void main() {
         ),
       );
 
-      // Get initial container
       AnimatedContainer container = tester.widget(find.byType(AnimatedContainer));
       final initialDecoration = container.decoration as BoxDecoration;
 
-      // Trigger animation
       final animationFuture = provider.triggerAnimation(testEntry.id);
       await tester.pump();
 
-      // Get container after animation trigger
       container = tester.widget(find.byType(AnimatedContainer));
       final animatingDecoration = container.decoration as BoxDecoration;
 
-      // Should have different appearance when animating
       expect(animatingDecoration.border, isNot(equals(initialDecoration.border)));
 
-      // Wait for animation to complete
       await animationFuture;
       await tester.pumpAndSettle();
     });

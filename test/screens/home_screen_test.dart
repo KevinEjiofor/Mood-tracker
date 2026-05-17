@@ -42,10 +42,8 @@ void main() {
 
       expect(find.text('Tap a face to log your mood'), findsOneWidget);
 
-      // Should have 5 mood faces
       expect(find.byType(MoodFace), findsNWidgets(5));
 
-      // Check all mood labels
       expect(find.text('Happy'), findsOneWidget);
       expect(find.text('Excited'), findsOneWidget);
       expect(find.text('Neutral'), findsOneWidget);
@@ -79,10 +77,8 @@ void main() {
         ),
       );
 
-      // Initially no entries
       expect(provider.last7.length, 0);
 
-      // Find and tap the Happy mood
       final happyButton = find.ancestor(
         of: find.text('Happy'),
         matching: find.byType(GestureDetector),
@@ -91,7 +87,6 @@ void main() {
       await tester.tap(happyButton);
       await tester.pump();
 
-      // Should have 1 entry now
       expect(provider.last7.length, 1);
       expect(provider.last7.first.mood, MoodType.happy);
     });
@@ -120,7 +115,6 @@ void main() {
     });
 
     testWidgets('should display timeline when entries exist', (WidgetTester tester) async {
-      // Add some entries
       provider.logMood(MoodType.happy);
       provider.logMood(MoodType.sad);
       provider.logMood(MoodType.neutral);
@@ -134,18 +128,14 @@ void main() {
         ),
       );
 
-      // Should show timeline
       expect(find.byType(TimelineCard), findsNWidgets(3));
 
-      // Should show count badge
       expect(find.text('3 / 7'), findsOneWidget);
 
-      // Should not show empty state
       expect(find.text('No entries yet'), findsNothing);
     });
 
     testWidgets('should display maximum 7 entries in timeline', (WidgetTester tester) async {
-      // Add 10 entries
       for (int i = 0; i < 10; i++) {
         provider.logMood(MoodType.values[i % MoodType.values.length]);
       }
@@ -159,13 +149,11 @@ void main() {
         ),
       );
 
-      // Should show at most 7 timeline cards (could be fewer if rendering is limited)
       expect(find.byType(TimelineCard), findsWidgets);
       expect(find.text('7 / 7'), findsOneWidget);
     });
 
     testWidgets('timeline should be horizontally scrollable', (WidgetTester tester) async {
-      // Add 7 entries
       for (int i = 0; i < 7; i++) {
         provider.logMood(MoodType.happy);
       }
@@ -193,7 +181,6 @@ void main() {
         ),
       );
 
-      // Tap excited mood
       final excitedButton = find.ancestor(
         of: find.text('Excited'),
         matching: find.byType(GestureDetector),
@@ -204,7 +191,6 @@ void main() {
       expect(provider.last7.length, 1);
       expect(provider.last7.first.mood, MoodType.excited);
 
-      // Tap tired mood
       final tiredButton = find.ancestor(
         of: find.text('Tired'),
         matching: find.byType(GestureDetector),
@@ -231,7 +217,6 @@ void main() {
 
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      // Clean up
       addTearDown(tester.view.resetPhysicalSize);
     });
 
@@ -250,7 +235,6 @@ void main() {
 
       expect(find.byType(HomeScreen), findsOneWidget);
 
-      // Clean up
       addTearDown(tester.view.resetPhysicalSize);
     });
 
@@ -286,15 +270,14 @@ void main() {
       await tester.tap(timelineCard);
       await tester.pump();
 
-      // Animation should be triggered
       expect(provider.animatingId, isNotNull);
 
-      // Wait for animation (manually pump specific duration)
       await tester.pump(const Duration(milliseconds: 800));
       await tester.pump();
     });
   });
 }
+
 
 
 

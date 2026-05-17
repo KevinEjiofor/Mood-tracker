@@ -59,7 +59,6 @@ class HomeScreen extends StatelessWidget {
 
                   const SizedBox(height: 40),
 
-                  // Timeline header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

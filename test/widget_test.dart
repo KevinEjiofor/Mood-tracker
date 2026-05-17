@@ -42,11 +42,8 @@ void main() {
     testWidgets('app provides MoodProvider to widget tree', (WidgetTester tester) async {
       await tester.pumpWidget(const MoodTrackerApp());
 
-      // If provider wasn't available, the app would throw an error
       expect(find.byType(HomeScreen), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });
 }
-
-
