@@ -1,13 +1,12 @@
-# Deployment Guide
+# Deployment
 
-## Quick Deploy to Vercel
+## Vercel
 
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Import your repository
-4. Deploy
+1. Push to GitHub
+2. Import repo on vercel.com
+3. Deploy
 
-## Firebase Hosting
+## Firebase
 
 ```bash
 npm install -g firebase-tools
@@ -17,9 +16,4 @@ flutter build web --release
 firebase deploy
 ```
 
-## Local Test
-
-```bash
-flutter run -d chrome
-```
 

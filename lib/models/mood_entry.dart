@@ -6,7 +6,20 @@ class MoodEntry {
   final String id;
   final MoodType mood;
   final DateTime timestamp;
+
   MoodEntry({required this.id, required this.mood, required this.timestamp});
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'mood': mood.index,
+    'timestamp': timestamp.toIso8601String(),
+  };
+
+  factory MoodEntry.fromJson(Map<String, dynamic> json) => MoodEntry(
+    id: json['id'],
+    mood: MoodType.values[json['mood']],
+    timestamp: DateTime.parse(json['timestamp']),
+  );
 }
 
 extension MoodExtension on MoodType {

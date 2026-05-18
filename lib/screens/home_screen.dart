@@ -4,6 +4,7 @@ import '../models/mood_entry.dart';
 import '../providers/mood_provider.dart';
 import '../widgets/mood_face.dart';
 import '../widgets/timeline_card.dart';
+import 'statistics_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final entries = context.watch<MoodProvider>().last7;
+    final totalEntries = context.watch<MoodProvider>().allEntries.length;
     final isWide = MediaQuery.of(context).size.width > 600;
 
     return Scaffold(
@@ -25,24 +27,59 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header
-                  Row(children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF6C63FF).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(14)),
-                      child: const Icon(Icons.mood,
-                        color: Color(0xFF6C63FF), size: 28)),
-                    const SizedBox(width: 14),
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      const Text('Mood Tracker',
-                        style: TextStyle(fontSize: 22,
-                          fontWeight: FontWeight.bold, color: Color(0xFF1A1A2E))),
-                      Text('How are you feeling today?',
-                        style: TextStyle(fontSize: 13, color: Colors.grey[500])),
-                    ]),
-                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF6C63FF).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(14)),
+                          child: const Icon(Icons.mood,
+                            color: Color(0xFF6C63FF), size: 28)),
+                        const SizedBox(width: 14),
+                        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          const Text('Mood Tracker',
+                            style: TextStyle(fontSize: 22,
+                              fontWeight: FontWeight.bold, color: Color(0xFF1A1A2E))),
+                          Text('How are you feeling today?',
+                            style: TextStyle(fontSize: 13, color: Colors.grey[500])),
+                        ]),
+                      ]),
+                      if (totalEntries > 0)
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => MultiProvider(
+                                  providers: [
+                                    ChangeNotifierProvider.value(
+                                      value: context.read<MoodProvider>(),
+                                    ),
+                                  ],
+                                  child: const StatisticsScreen(),
+                                ),
+                              ),
+                            );
+                          },
+                          icon: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF6C63FF).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Icon(
+                              Icons.bar_chart_rounded,
+                              color: Color(0xFF6C63FF),
+                              size: 24,
+                            ),
+                          ),
+                          tooltip: 'View Statistics',
+                        ),
+                    ],
+                  ),
 
                   const SizedBox(height: 32),
                   const Text('Tap a face to log your mood',
@@ -50,7 +87,6 @@ class HomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600, color: Color(0xFF1A1A2E))),
                   const SizedBox(height: 20),
 
-                  // Mood buttons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: MoodType.values

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/mood_provider.dart';
+import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -12,20 +13,22 @@ class MoodTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MoodProvider(),
-      child: MaterialApp(
-        title: 'Mood Tracker',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF6C63FF),
-            brightness: Brightness.light,
-          ),
-          useMaterial3: true,
-          fontFamily: 'Arial',
-        ),
-        home: const HomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MoodProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return MaterialApp(
+            title: 'Mood Tracker',
+            debugShowCheckedModeBanner: false,
+            theme: themeProvider.lightTheme,
+            darkTheme: themeProvider.darkTheme,
+            themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: const HomeScreen(),
+          );
+        },
       ),
     );
   }
